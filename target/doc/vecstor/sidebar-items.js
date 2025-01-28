@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"static":["general_heap"],"struct":["tinyvec"]};
+window.SIDEBAR_ITEMS = {"fn":["load"],"static":["general_heap"],"struct":["tinyvec"]};

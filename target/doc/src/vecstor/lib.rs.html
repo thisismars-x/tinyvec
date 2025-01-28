@@ -333,7 +333,104 @@
 <a href="#332" id="332">332</a>
 <a href="#333" id="333">333</a>
 <a href="#334" id="334">334</a>
-<a href="#335" id="335">335</a></pre></div><pre class="rust"><code><span class="attr">#![allow(
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+<a href="#354" id="354">354</a>
+<a href="#355" id="355">355</a>
+<a href="#356" id="356">356</a>
+<a href="#357" id="357">357</a>
+<a href="#358" id="358">358</a>
+<a href="#359" id="359">359</a>
+<a href="#360" id="360">360</a>
+<a href="#361" id="361">361</a>
+<a href="#362" id="362">362</a>
+<a href="#363" id="363">363</a>
+<a href="#364" id="364">364</a>
+<a href="#365" id="365">365</a>
+<a href="#366" id="366">366</a>
+<a href="#367" id="367">367</a>
+<a href="#368" id="368">368</a>
+<a href="#369" id="369">369</a>
+<a href="#370" id="370">370</a>
+<a href="#371" id="371">371</a>
+<a href="#372" id="372">372</a>
+<a href="#373" id="373">373</a>
+<a href="#374" id="374">374</a>
+<a href="#375" id="375">375</a>
+<a href="#376" id="376">376</a>
+<a href="#377" id="377">377</a>
+<a href="#378" id="378">378</a>
+<a href="#379" id="379">379</a>
+<a href="#380" id="380">380</a>
+<a href="#381" id="381">381</a>
+<a href="#382" id="382">382</a>
+<a href="#383" id="383">383</a>
+<a href="#384" id="384">384</a>
+<a href="#385" id="385">385</a>
+<a href="#386" id="386">386</a>
+<a href="#387" id="387">387</a>
+<a href="#388" id="388">388</a>
+<a href="#389" id="389">389</a>
+<a href="#390" id="390">390</a>
+<a href="#391" id="391">391</a>
+<a href="#392" id="392">392</a>
+<a href="#393" id="393">393</a>
+<a href="#394" id="394">394</a>
+<a href="#395" id="395">395</a>
+<a href="#396" id="396">396</a>
+<a href="#397" id="397">397</a>
+<a href="#398" id="398">398</a>
+<a href="#399" id="399">399</a>
+<a href="#400" id="400">400</a>
+<a href="#401" id="401">401</a>
+<a href="#402" id="402">402</a>
+<a href="#403" id="403">403</a>
+<a href="#404" id="404">404</a>
+<a href="#405" id="405">405</a>
+<a href="#406" id="406">406</a>
+<a href="#407" id="407">407</a>
+<a href="#408" id="408">408</a>
+<a href="#409" id="409">409</a>
+<a href="#410" id="410">410</a>
+<a href="#411" id="411">411</a>
+<a href="#412" id="412">412</a>
+<a href="#413" id="413">413</a>
+<a href="#414" id="414">414</a>
+<a href="#415" id="415">415</a>
+<a href="#416" id="416">416</a>
+<a href="#417" id="417">417</a>
+<a href="#418" id="418">418</a>
+<a href="#419" id="419">419</a>
+<a href="#420" id="420">420</a>
+<a href="#421" id="421">421</a>
+<a href="#422" id="422">422</a>
+<a href="#423" id="423">423</a>
+<a href="#424" id="424">424</a>
+<a href="#425" id="425">425</a>
+<a href="#426" id="426">426</a>
+<a href="#427" id="427">427</a>
+<a href="#428" id="428">428</a>
+<a href="#429" id="429">429</a>
+<a href="#430" id="430">430</a>
+<a href="#431" id="431">431</a>
+<a href="#432" id="432">432</a></pre></div><pre class="rust"><code><span class="attr">#![allow(
     unused_variables,
     dead_code,
     unused_imports,
@@ -346,6 +443,7 @@
 <span class="kw">use </span>std::fmt::{<span class="self">self</span>, Display, Formatter, <span class="prelude-ty">Result</span>};
 <span class="kw">use </span>std::iter;
 <span class="kw">use </span>std::mem::MaybeUninit;
+<span class="kw">use </span>std::time::Instant;
 
 <span class="doccomment">///Size of heap allocated at once
 </span><span class="kw">pub static </span>general_heap: usize = <span class="number">1024</span>;
@@ -374,8 +472,9 @@
 /// This is by design. Mostly you would want to use such types. Extend
 /// the trait bounds if you feel the need.
 ///
-/// ```rust
+/// ```rust, ignore
 /// // Initialize a tinyvec with type i32 and number of elements on stack 64
+/// use vecstor::tinyvec;
 /// let mut tinyvecwtor: tinyvector&lt;i32, 64&gt; = tinyvec::new();    
 ///
 /// // Zero heap allocations till now
@@ -541,6 +640,7 @@
 
 <span class="doccomment">/// Make tinyvec work as:
 /// ```rust
+/// use vecstor::tinyvec;
 /// let mut tinyvecwtor: tinyvec&lt;u8, 256&gt; = tinyvec::new();
 /// for i in 0..=256 {
 ///     tinyvecwtor.push(i as u8);
@@ -555,7 +655,8 @@
 /// other utility function.
 ///
 /// ```rust
-/// let tinyvector: tinyvec&lt;i32, 1024&gt; = tinyvec::new()
+/// use vecstor::tinyvec;
+/// let tinyvector: tinyvec&lt;i32, 1024&gt; = tinyvec::new();
 /// // fill tinyvector
 /// let vector: Vec&lt;i32&gt; = (tinyvector).collect::&lt;Vec&lt;i32&gt;&gt;();
 /// ````
@@ -667,5 +768,98 @@
         <span class="kw">let </span>vector = tinyvecwtor.collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="macro">assert_eq!</span>(vector.len(), <span class="number">200</span>);
     }
+}
+
+<span class="doccomment">/// Generate `profile`
+///
+/// Profiled based on time taken to load elements
+/// to tinyvec and vec.
+/// Note that though `Vec&lt;T&gt;` is in the std,
+/// `tinyvec&lt;T, N&gt; is faster than Vec&lt;T&gt; in all regards.`
+///
+/// # Profile Table
+///
+/// |tinyvec      |   vec          |   dtype  |
+/// |-------------|----------------|----------|             
+/// |82.971µs     |   96.186µs     |          |
+/// |163.522µs    |   189.874µs    |    i32   |
+/// |245.244µs    |   293.82µs     |          |
+/// |             |                |          |
+/// |84.787µs     |   99.005µs     |          |
+/// |166.622µs    |  205.947µs     |    i64   |
+/// |249.435µs    |   28.471µs     |          |
+/// |             |                |          |
+/// |112.127µs    |  149.791µs     |          |
+/// |198.913µs    |   287.499µs    |     i128 |
+/// |285.452µs    |  527.276µs     |          |
+/// |             |                |          |
+/// |103.187µs    |  103.136µs     |          |
+/// |183.506µs    |  204.389µs     |   bool   |
+/// |278.57µs     |  338.353µs     |          |
+/// |             |                |          |
+/// |94.472µs     |  103.327µs     |          |
+/// |181.874µs    |  266.311µs     |    f32   |
+/// |315.397µs    |  330.904µs     |          |
+/// |             |                |          |
+/// |98.945µs     |  116.915µs     |          |
+/// |184.969µs    |  209.106µs     |    f64   |
+/// |277.405µs    |  322.154µs     |          |
+/// |             |                |          |
+/// |104.565µs    |  107.086µs     |          |
+/// |182.641µs    |  203.016µs     |    char  |
+/// |273.395µs    |  302.796µs     |          |
+///
+</span><span class="kw">pub fn </span>load&lt;T&gt;()
+<span class="kw">where
+    </span>T: Copy + Default + std::fmt::Display,
+{
+    <span class="kw">let </span><span class="kw-2">mut </span>t1: tinyvec&lt;T, <span class="number">5000</span>&gt; = tinyvec::new();
+    <span class="kw">let </span><span class="kw-2">mut </span>t2: tinyvec&lt;T, <span class="number">10000</span>&gt; = tinyvec::new();
+    <span class="kw">let </span><span class="kw-2">mut </span>t3: tinyvec&lt;T, <span class="number">15000</span>&gt; = tinyvec::new();
+    <span class="kw">let </span><span class="kw-2">mut </span>v1: Vec&lt;T&gt; = Vec::new();
+    <span class="kw">let </span><span class="kw-2">mut </span>v2: Vec&lt;T&gt; = Vec::new();
+    <span class="kw">let </span><span class="kw-2">mut </span>v3: Vec&lt;T&gt; = Vec::new();
+    <span class="kw">let </span><span class="kw-2">mut </span>begin = Instant::now();
+
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..=<span class="number">5000 </span>{
+        t1.push(T::default());
+    }
+
+    <span class="kw">let </span>t_t1 = begin.elapsed();
+
+    <span class="kw">let </span>begin = Instant::now();
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..=<span class="number">5000 </span>{
+        v1.push(T::default());
+    }
+
+    <span class="kw">let </span>t_v1 = begin.elapsed();
+
+    <span class="kw">let </span><span class="kw-2">mut </span>begin = Instant::now();
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..=<span class="number">10000 </span>{
+        t2.push(T::default());
+    }
+
+    <span class="kw">let </span>t_t2 = begin.elapsed();
+
+    <span class="kw">let </span>begin = Instant::now();
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..=<span class="number">10000 </span>{
+        v2.push(T::default());
+    }
+
+    <span class="kw">let </span>t_v2 = begin.elapsed();
+
+    <span class="kw">let </span><span class="kw-2">mut </span>begin = Instant::now();
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..=<span class="number">15000 </span>{
+        t3.push(T::default());
+    }
+
+    <span class="kw">let </span>t_t3 = begin.elapsed();
+
+    <span class="kw">let </span>begin = Instant::now();
+    <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..=<span class="number">15000 </span>{
+        v3.push(T::default());
+    }
+
+    <span class="kw">let </span>t_v3 = begin.elapsed();
 }
 </code></pre></div></section></main></body></html>

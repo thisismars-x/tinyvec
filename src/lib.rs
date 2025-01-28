@@ -11,6 +11,7 @@ use std::default;
 use std::fmt::{self, Display, Formatter, Result};
 use std::iter;
 use std::mem::MaybeUninit;
+use std::time::Instant;
 
 ///Size of heap allocated at once
 pub static general_heap: usize = 1024;
@@ -39,8 +40,9 @@ enum step_iter {
 /// This is by design. Mostly you would want to use such types. Extend
 /// the trait bounds if you feel the need.
 ///
-/// ```rust
+/// ```rust, ignore
 /// // Initialize a tinyvec with type i32 and number of elements on stack 64
+/// use vecstor::tinyvec;
 /// let mut tinyvecwtor: tinyvector<i32, 64> = tinyvec::new();    
 ///
 /// // Zero heap allocations till now
@@ -206,6 +208,7 @@ where
 
 /// Make tinyvec work as:
 /// ```rust
+/// use vecstor::tinyvec;
 /// let mut tinyvecwtor: tinyvec<u8, 256> = tinyvec::new();
 /// for i in 0..=256 {
 ///     tinyvecwtor.push(i as u8);
@@ -220,7 +223,8 @@ where
 /// other utility function.
 ///
 /// ```rust
-/// let tinyvector: tinyvec<i32, 1024> = tinyvec::new()
+/// use vecstor::tinyvec;
+/// let tinyvector: tinyvec<i32, 1024> = tinyvec::new();
 /// // fill tinyvector
 /// let vector: Vec<i32> = (tinyvector).collect::<Vec<i32>>();
 /// ````
@@ -332,4 +336,97 @@ mod tests {
         let vector = tinyvecwtor.collect::<Vec<_>>();
         assert_eq!(vector.len(), 200);
     }
+}
+
+/// Generate `profile`
+///
+/// Profiled based on time taken to load elements
+/// to tinyvec and vec.
+/// Note that though `Vec<T>` is in the std,
+/// `tinyvec<T, N> is faster than Vec<T> in all regards.`
+///
+/// # Profile Table
+///
+/// |tinyvec      |   vec          |   dtype  |
+/// |-------------|----------------|----------|             
+/// |82.971µs     |   96.186µs     |          |
+/// |163.522µs    |   189.874µs    |    i32   |
+/// |245.244µs    |   293.82µs     |          |
+/// |             |                |          |
+/// |84.787µs     |   99.005µs     |          |
+/// |166.622µs    |  205.947µs     |    i64   |
+/// |249.435µs    |   28.471µs     |          |
+/// |             |                |          |
+/// |112.127µs    |  149.791µs     |          |
+/// |198.913µs    |   287.499µs    |     i128 |
+/// |285.452µs    |  527.276µs     |          |
+/// |             |                |          |
+/// |103.187µs    |  103.136µs     |          |
+/// |183.506µs    |  204.389µs     |   bool   |
+/// |278.57µs     |  338.353µs     |          |
+/// |             |                |          |
+/// |94.472µs     |  103.327µs     |          |
+/// |181.874µs    |  266.311µs     |    f32   |
+/// |315.397µs    |  330.904µs     |          |
+/// |             |                |          |
+/// |98.945µs     |  116.915µs     |          |
+/// |184.969µs    |  209.106µs     |    f64   |
+/// |277.405µs    |  322.154µs     |          |
+/// |             |                |          |
+/// |104.565µs    |  107.086µs     |          |
+/// |182.641µs    |  203.016µs     |    char  |
+/// |273.395µs    |  302.796µs     |          |
+///
+pub fn load<T>()
+where
+    T: Copy + Default + std::fmt::Display,
+{
+    let mut t1: tinyvec<T, 5000> = tinyvec::new();
+    let mut t2: tinyvec<T, 10000> = tinyvec::new();
+    let mut t3: tinyvec<T, 15000> = tinyvec::new();
+    let mut v1: Vec<T> = Vec::new();
+    let mut v2: Vec<T> = Vec::new();
+    let mut v3: Vec<T> = Vec::new();
+    let mut begin = Instant::now();
+
+    for i in 0..=5000 {
+        t1.push(T::default());
+    }
+
+    let t_t1 = begin.elapsed();
+
+    let begin = Instant::now();
+    for i in 0..=5000 {
+        v1.push(T::default());
+    }
+
+    let t_v1 = begin.elapsed();
+
+    let mut begin = Instant::now();
+    for i in 0..=10000 {
+        t2.push(T::default());
+    }
+
+    let t_t2 = begin.elapsed();
+
+    let begin = Instant::now();
+    for i in 0..=10000 {
+        v2.push(T::default());
+    }
+
+    let t_v2 = begin.elapsed();
+
+    let mut begin = Instant::now();
+    for i in 0..=15000 {
+        t3.push(T::default());
+    }
+
+    let t_t3 = begin.elapsed();
+
+    let begin = Instant::now();
+    for i in 0..=15000 {
+        v3.push(T::default());
+    }
+
+    let t_v3 = begin.elapsed();
 }

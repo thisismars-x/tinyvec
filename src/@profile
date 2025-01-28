@@ -1,0 +1,35 @@
+
+Profiled based on time taken to load elements
+to tinyvec and vec.
+Note that though Vec<T> is in the std,
+tinyvec<T, N> beats Vec<T> in all regards.
+
+tinyvec         vec             dtype
+
+82.971µs        96.186µs        
+163.522µs       189.874µs         i32
+245.244µs       293.82µs
+
+84.787µs        99.005µs 
+166.622µs       205.947µs         i64
+249.435µs       28.471µs
+
+112.127µs       149.791µs 
+198.913µs       287.499µs         i128
+285.452µs       527.276µs
+
+103.187µs       103.136µs 
+183.506µs       204.389µs         bool
+278.57µs        338.353µs
+
+94.472µs        103.327µs 
+181.874µs       266.311µs          f32
+315.397µs       330.904µs
+
+98.945µs        116.915µs 
+184.969µs       209.106µs          f64
+277.405µs       322.154µs
+
+104.565µs       107.086µs 
+182.641µs       203.016µs          char
+273.395µs       302.796µs
