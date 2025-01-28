@@ -1,0 +1,5 @@
+If you have Rust installed on your system,
+run cargo doc --open
+
+Else, go to target/docs/vecstor and open index.html
+Go to src/profile to get a sense of the project
